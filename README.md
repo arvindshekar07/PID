@@ -1,7 +1,51 @@
-# CarND-Controls-PID
-Self-Driving Car Engineer Nanodegree Program
-
+# PID 
 ---
+## Introduction
+
+As theory would put 
+```
+A PID controller continuously calculates an error value  e(t) as the difference between a desired setpoint and a 
+measured process variable and applies a correction based on proportional, integral, and derivative 
+terms. The controller attempts to minimize the error over time by adjustment of a control variable 
+ u(t), such as the position of a control valve, a damper, or the power supplied to a heating element, 
+ to a new value determined by a weighted sum:
+``` 
+
+As for the project goes we are given  cross-track error (CTE), speed, and steering angle data via local websocket by a
+simulator. Using these input data we are to calculate and output the right steering angle and throttle back to the 
+simulator.
+
+We can test our ouput by seeing how the car in the simulator is working.
+## Rubics points
+
+1.  Describe the effect each of the P, I, D components had in your implementation.
+
+    * P accounts for present values of the error. For example, if the error is large and positive, the control output will also be large and positive.
+    * I accounts for past values of the error. For example, if the current output is not sufficiently strong, the integral of the error will accumulate over time, and the controller will respond by applying a stronger action.
+    * D accounts for possible future trends of the error, based on its current rate of change. For example, continuing the P example above, when the large positive control output succeeds in bringing the error closer to zero, 
+    it also puts the process on a path to large negative error in the near future; in this case, the derivative turns negative and the D module reduces the strength of the action to prevent this overshot.
+
+2. Describe how the final hyperparameters were chosen.
+
+The initial parameter in where chosen based of a random values and checked if the car is moving in the first place.
+With my later experiments. For now the values were a random and fine tuned over each experiment.
+
+Initiall I tested with a the Kp coefficient and had a very large value set because of my car use go in the reverese direction.
+This ment the throttle was wrong and my CTE was overshooting.
+I reduced it to a smaller value . Once the car started to move forward I set the P values . 
+
+But here also the car moved forward but the use take a left run immediately . A told in the theory I started with a large value of the D 
+/ differential parameter . As I decreased the values  the car did not move left or right immidiately. 
+
+Later when the car moved forward and there was a obstracle in the front there was a sudden turn instead of a gradual one .
+In here started to check the I / integral value. Started of with a value lower than the differential term.
+As I gradually decreased it the the change happend more gradualy . You can see this in the video.
+
+
+I could have used Twiddle/coordinate decent  to for choosing the parameter for me . This will be my future enhancement
+
+
+You can see the final output [here](finalOutput.mov).
 
 ## Dependencies
 
@@ -90,3 +134,8 @@ that's just a guess.
 
 One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
+
+
+
+## References 
+.   [PID-wiki](https://en.wikipedia.org/wiki/PID_controller)
